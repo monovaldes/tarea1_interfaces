@@ -16,11 +16,15 @@ $dal = new DAL();
 <script type="text/javascript">
     function initialize() {
         <?php 
-        $destino = $dal->obtener_destino($_GET['nombre_destino']);
-     //         echo $destino['Latitud'];
-   //         echo "var lat=".$destino['Latitud'].";";
-    //        echo "var lng=".$destino['Longitud'].";";
+            $destino = $dal->obtener_destino($_GET['nombre_destino']);
+            foreach ($destino as $loc) {
+                $dst_lat = $loc->Latitud;
+                $dst_lng = $loc->Longitud;
+                echo "var lat=".$loc->Latitud.";";
+                echo "var lng=".$loc->Longitud.";";
+            }
         ?>
+        
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var place= new google.maps.LatLng(lat,lng);    
@@ -42,27 +46,29 @@ $dal = new DAL();
         directionsService.route(request,function(result,status){
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
+                alert(result.routes[0].overview_path);
             }
         });
 
+
     var markersArray = [];
     <?php
-//        $puntos_intermedios = $dal->sitios_intermedios($destino);
- //       foreach ($puntos_intermedios as $punto) {
-//            echo "markersArray.push(
- //               new google.maps.Marker({
-//                    position: new google.maps.LatLng(".$punto['Latitud'].",".$punto['Longitud']."),
- //                   title: ".'"'.$punto['Nombre'].'"'."
- //           })
-//            );";
-//        }
+        $puntos_intermedios = $dal->sitios_intermedios($dst_lat,$dst_lng);
+        foreach ($puntos_intermedios as $punto) {
+            echo "markersArray.push(
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(".$punto->Latitud.",".$punto->Longitud."),
+                    title: ".'"'.$punto->Nombre.'"'."
+                })
+            );";
+       }
     ?>
     for (var i=0;i<markersArray.length;i++){
         markersArray[i].setMap(map);
     }
     var marker = new google.maps.Marker({
         position: place,
-//        title: <?php echo '"'.$destino['Nombre_localidad'].'"' ?>
+        title: <?php echo '"'.$_GET['nombre_destino'].'"' ?>
     });
     var santiagoMarker = new google.maps.Marker({
         position: santiago,
