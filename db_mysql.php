@@ -42,7 +42,7 @@ class DAL {
   private function query($sql){  
   
     $this->dbconnect();  
-  
+    mysql_query("SET NAMES 'utf8'");
     $res = mysql_query($sql);  
   
     if ($res){  
