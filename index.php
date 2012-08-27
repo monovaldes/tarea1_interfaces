@@ -40,9 +40,8 @@ $dal = new DAL();
 		  <h2>Bienvenido!</h2>
 		  <p>Ingresa tu Destino:</p>
 		  <p>
-						<input id="search" type="text" class="search-query" placeholder="destino"
-						data-provide="typeahead" data-items="4">
-				    <button type="submit" class="btn btn-primary">Ver</a>
+						<input id="search" class="search-query" placeholder="destino"
+						data-provide="typeahead" data-items="4" autocomplete="off">
 		  </p>
 		</div>
 <div class=well>
@@ -67,7 +66,19 @@ $dal = new DAL();
 			
 		?>
 		var listado = <?php echo "['" . implode("','", $temp) . "']";?>  
-		$('#search').typeahead({source: listado})  
+		$('#search').typeahead({
+			source: listado,
+			 updater:function (item) {
+        //item = selected item
+				
+				//1.- obtener todos los datos del elemento item desde        
+
+        //do your stuff.
+				var substr = item.split(',');
+				//localidad.nombre=item[0]
+        return item;
+    	}
+		})  
 	</script>
 </footer>
 
