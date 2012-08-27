@@ -10,45 +10,28 @@ $dal = new DAL();
     <title>Tarea 1 Interfaces - 16744844-5</title>
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <style type="text/css">html,body{background-color:#001A33;} </style>
-		<script src="https://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-		<script type="text/javascript">
-	  function initialize() {
-	    var latlng = new google.maps.LatLng(-33.429149,-70.650742);
-	    var myOptions = {
-	      zoom: 8,
-	      center: latlng,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP
-	    };
-	    var map = new google.maps.Map(document.getElementById("map_canvas"),
-	        myOptions);
-	  }
-		</script>
-
 </head>
 <body>
 			<div class="navbar">
 		  <div class="navbar-inner">
 		    <a class="brand" href="#">ACME USM</a>
 		    <ul class="nav">
-
 		    </ul>
 		  </div>
 		</div>
   <div class="container">
-
 		<div class="well">
-		  <h2>Bienvenido!</h2>
-		  <p>Ingresa tu Destino:</p>
-		  <p>
+		  <p>Ingresa tu Destino:
 						<input id="search" class="search-query" placeholder="destino"
 						data-provide="typeahead" data-items="4" autocomplete="off">
 		  </p>
 		</div>
-<div class=well>
-<button class="close">&times;</button>
- <div id="map_canvas" style="width:900px; height:500px"></div>
-</div>
-
+	<div class=well>
+	<button class="close">&times;</button>
+		<div id="mapa">
+			<IMG style="align:center" class="img-polaroid" SRC="google-maps.png">
+		</div>
+	</div>
 
 
   </div>
@@ -56,7 +39,6 @@ $dal = new DAL();
 	<script src="bootstrap/js/jquery.js"></script> 
 	<script src="bootstrap/js/bootstrap.js"></script> 
 	<script type="text/javascript">
-		initialize()
 		<?php
 			$localidades = $dal->listado_localidades();
 			$temp= array();
@@ -69,13 +51,11 @@ $dal = new DAL();
 		$('#search').typeahead({
 			source: listado,
 			 updater:function (item) {
-        //item = selected item
-				
-				//1.- obtener todos los datos del elemento item desde        
+	        //item = selected item
+			var substr = item.split(',');
+			var nombre_localidad = substr[0];					
+			//llamar a mapa.php y pegaro en la div id mapa
 
-        //do your stuff.
-				var substr = item.split(',');
-				//localidad.nombre=item[0]
         return item;
     	}
 		})  

@@ -1,5 +1,5 @@
 <?php   
-  
+
 class DALQueryResult {  
       
   private $_results = array();  
@@ -27,6 +27,12 @@ class DAL {
   public function listado_localidades(){  
     $sql = "SELECT * FROM Localidad, Comuna, Region WHERE Localidad.id_comuna = Comuna.id_comuna AND Comuna.Num_region = Region.Num_region";
     return $this->query($sql);  
+  }
+
+  public function obtener_destino($dest)
+  {
+    $sql = "SELECT * FROM Localidad WHERE Nombre_localidad = '".$dest."'";
+    return $this->query($sql);
   }  
     
   private function dbconnect() {  
