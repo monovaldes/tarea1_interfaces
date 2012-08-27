@@ -1,43 +1,78 @@
-<?php 
-/* 
-        SMyCC [Pronounced "smEEk"] 
-        (Simple MySQL Connection Class) 
-        © 2005-2006 Steve Castle 
-        http://www.stscac.com 
-
-*/ 
-class mysql 
-{ 
-    var $server; 
-    var $conn_username; 
-    var $conn_password; 
-    var $database_name; 
-    var $connection; 
-    var $select; 
-    var $query; 
-
-    function connect() 
- { 
-    require "database.inc.php"; 
-     
-    $connection = mysql_connect($server,$conn_username,$conn_password); 
-    $select = mysql_select_db($database_name,$connection); 
-    if (!$connection)
-    {
-    die('Could not connect: ' . mysql_error());
-    }
-} 
-    function query($query) 
-    { 
-        $result = mysql_query($query); 
-        if (!$result) { 
-            echo 'Could not run query: ' . mysql_error(); 
-            exit; 
-} 
-    } 
-    function end() 
-    { 
-        mysql_free_result($connection); 
-    } 
-}
-?>
+<?php   
+  
+class DALQueryResult {  
+      
+  private $_results = array();  
+  
+  public function __construct(){}  
+  
+  public function __set($var,$val){  
+    $this->_results[$var] = $val;  
+  }  
+  
+  public function __get($var){    
+    if (isset($this->_results[$var])){  
+      return $this->_results[$var];  
+    }  
+    else{  
+      return null;  
+    }  
+  }  
+}  
+  
+class DAL {  
+  
+  public function __construct(){}  
+    
+  public function listado_localidades(){  
+    $sql = "SELECT * FROM Localidad, Comuna, Region WHERE Localidad.id_comuna = Comuna.id_comuna AND Comuna.Num_region = Region.Num_region";
+    return $this->query($sql);  
+  }  
+    
+  private function dbconnect() {  
+    $conn = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)  
+        or die ("<br/>Could not connect to MySQL server");  
+          
+    mysql_select_db(DB_DB,$conn)  
+        or die ("<br/>Could not select the indicated database");  
+      
+    return $conn;  
+  }  
+    
+  private function query($sql){  
+  
+    $this->dbconnect();  
+  
+    $res = mysql_query($sql);  
+  
+    if ($res){  
+      if (strpos($sql,'SELECT') === false){  
+        return true;  
+      }  
+    }  
+    else{  
+      if (strpos($sql,'SELECT') === false){  
+        return false;  
+      }  
+      else{  
+        return null;  
+      }  
+    }  
+  
+    $results = array();  
+  
+    while ($row = mysql_fetch_array($res)){  
+  
+      $result = new DALQueryResult();  
+  
+      foreach ($row as $k=>$v){  
+        $result->$k = $v;  
+      }  
+  
+      $results[] = $result;  
+    }  
+    return $results;          
+  }    
+}  
+  
+?>  
