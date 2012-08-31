@@ -41,7 +41,7 @@ $dal = new DAL();
 			    $locales = $dal->establecimientos();
 			    foreach ($locales as $punto) {
 			    	if($punto->Establecimiento_tipo == "Alojamiento")
-				    	echo '<label class="checkbox">
+				    	echo '<label style="width: 250px" class="checkbox" rel="popover" data-content="Ubicacion: '.$punto->Ubicacion.' , Teléfono: '.$punto->Telefono.'" data-original-title="'.$punto->Nombre.'" data-trigger="hover">
 									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
 								</label>';
 			 		}
@@ -52,7 +52,7 @@ $dal = new DAL();
 			    $locales = $dal->establecimientos();
 			    foreach ($locales as $punto) {
 			    	if($punto->Establecimiento_tipo == "Comida")
-				    	echo '<label class="checkbox">
+				    	echo '<label style="width: 250px" class="checkbox" rel="popover" data-content="Ubicacion: '.$punto->Ubicacion.' , Teléfono: '.$punto->Telefono.'" data-original-title="'.$punto->Nombre.'" data-trigger="hover">
 									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
 								</label>';
 			 		}
@@ -63,7 +63,7 @@ $dal = new DAL();
 			    $locales = $dal->establecimientos();
 			    foreach ($locales as $punto) {
 			    	if($punto->Establecimiento_tipo == "Entretención")
-				    	echo '<label class="checkbox">
+				    	echo '<label style="width: 250px" class="checkbox" rel="popover" data-content="Ubicacion: '.$punto->Ubicacion.' , Teléfono: '.$punto->Telefono.'" data-original-title="'.$punto->Nombre.'" data-trigger="hover">
 									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
 								</label>';
 				 		}
@@ -134,6 +134,7 @@ $dal = new DAL();
     	}
 		})
 		$('#limpiar').tooltip();
+		$('.checkbox').popover();
 	</script>
 
 <script>

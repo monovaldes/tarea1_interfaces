@@ -41,7 +41,7 @@ class DAL {
   } 
 
   public function establecimientos(){  
-    $sql = "SELECT Establecimiento.Id_establecimiento ID, Establecimiento.nombre Nombre, 
+    $sql = "SELECT Establecimiento.Id_establecimiento ID, Localidad.Nombre_localidad Ubicacion, Establecimiento.nombre Nombre, 
             Establecimiento.Telefono Telefono,Establecimiento.URL URL,Establecimiento.Categoria Categoria ,
             Tipo_establecimiento.Nombre_tipo Establecimiento_tipo,Comida.especialidad Comda_especialidad, 
             Alojamiento.Tipo Alojamiento_tipo,Alojamiento.Cantidad Alojamiento_cantidad,
@@ -49,6 +49,7 @@ class DAL {
             Esparcimiento.Cantidad Esparcimiento_cantidad, Establecimiento.Latitud Latitud,
             Establecimiento.Longitud Longitud
             FROM Establecimiento
+            LEFT JOIN Localidad ON Localidad.Id_localidad = Establecimiento.Id_localidad
             LEFT JOIN Comida ON Comida.Id_establecimiento = Establecimiento.Id_establecimiento
             LEFT JOIN Alojamiento ON Alojamiento.Id_establecimiento = Establecimiento.Id_establecimiento
             LEFT JOIN Esparcimiento ON Esparcimiento.Id_establecimiento = Establecimiento.Id_establecimiento
