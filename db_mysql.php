@@ -35,8 +35,8 @@ class DAL {
     return $this->query($sql);
   } 
 
-  public function sitios_intermedios($lat,$lng){  
-    $sql = "SELECT Nombre,Latitud,Longitud FROM Establecimiento WHERE Latitud between least(-33.458083,".$lat.") AND greatest(".$lat.",-33.458083) AND Longitud between least(-70.657368,".$lng.") AND greatest(".$lng.",-70.657368)";
+  public function establecimientos(){  
+    $sql = "SELECT Nombre,Latitud,Longitud FROM Establecimiento";
     return $this->query($sql);  
   } 
     
