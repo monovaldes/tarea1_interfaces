@@ -24,22 +24,52 @@ $dal = new DAL();
 						<input name="destino" id="destino" class="search-query" placeholder="destino"
 						data-provide="typeahead" data-items="4" autocomplete="off">
 		  </p>
-		  	<p><input name="puntosintermedios" id="puntosintermedios" type="checkbox" onClick="jeje()"> Seleccionar Puntos Intermedios</p>
+		  	<p><input name="visitarpuntos" id="visitarpuntos" type="checkbox" onClick="jeje()"> Quiero Visitar sitios en el camino</p>
+		  	<p id="ptsint"><input name="puntosintermedios" id="puntosintermedios" type="checkbox" onClick="jeje()"> Conozco los Sitios que visitaré</p>
 		    <p><button type="submit" class="btn">Buscar</button></p>
 		</div>
 		<div id="locales" class="well">
+			<ul class="nav nav-tabs">
+			  <li id="a1" class="active" onClick="activa_a1()">
+			    <a  href="#">Alojamiento</a></li>
+			  <li id="a2" onClick="activa_a2()"><a  href="#">Comida</a></li>
+			  <li id="a3" onClick="activa_a3()"><a  href="#">Entretención</a></li>
+			</ul>
+
+			<div id="b1">
 			<?php  
 			    $locales = $dal->establecimientos();
 			    foreach ($locales as $punto) {
+			    	if($punto->Establecimiento_tipo == "Alojamiento")
+				    	echo '<label class="checkbox">
+									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
+								</label>';
+			 		}
 			?>
-
-				<label class="checkbox">
-					<input name="lugares[]" value="<?php echo $punto->Nombre; ?>" type="checkbox"> <?php echo $punto->Nombre; ?>
-				</label>
-
-			<?php
-			 	}
+			</div>
+			<div id="b2">
+			<?php  
+			    $locales = $dal->establecimientos();
+			    foreach ($locales as $punto) {
+			    	if($punto->Establecimiento_tipo == "Comida")
+				    	echo '<label class="checkbox">
+									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
+								</label>';
+			 		}
 			?>
+			</div>
+			<div id="b3">
+			<?php  
+			    $locales = $dal->establecimientos();
+			    foreach ($locales as $punto) {
+			    	if($punto->Establecimiento_tipo == "Entretención")
+				    	echo '<label class="checkbox">
+									<input name="lugares[]" value="'.$punto->Nombre.'" type="checkbox"> '.$punto->Nombre.'
+								</label>';
+				 		}
+			?>
+			</div>
+
         </div>
 	</form>
 		<div class="well">
@@ -107,15 +137,60 @@ $dal = new DAL();
 	</script>
 
 <script>
-  var continue_button = document.getElementById('locales');
-  continue_button.style.display = 'none';                
-  var switchElement = document.getElementById('puntosintermedios')
+  var locales = document.getElementById('locales');
+  locales.style.display = 'none';
+  var puntosinter = document.getElementById('ptsint');
+  puntosinter.style.display = 'none';                
+  var switchElement = document.getElementById('puntosintermedios');
+  var switchElement2 = document.getElementById('visitarpuntos');
   function jeje() {
         if (switchElement.checked)
-                continue_button.style.display = '';
+                locales.style.display = '';
         else
-                continue_button.style.display = 'none';                
+                locales.style.display = 'none';   
+        if (switchElement2.checked)
+                puntosinter.style.display = '';
+        else
+                puntosinter.style.display = 'none';   
+                    
   }
+
+	var a1 = document.getElementById('a1');
+	var a2 = document.getElementById('a2');
+	var a3 = document.getElementById('a3');
+
+	var b1 = document.getElementById('b1');
+	var b2 = document.getElementById('b2');
+	var b3 = document.getElementById('b3');
+
+  	b2.style.display = 'none';
+  	b3.style.display = 'none';
+
+  function activa_a1(){
+  	b1.style.display = '';
+  	b2.style.display = 'none';
+  	b3.style.display = 'none';
+  	a1.setAttribute("class", "active");
+  	a2.setAttribute("class", "");
+  	a3.setAttribute("class", ""); 	
+  }
+  function activa_a2(){
+  	b2.style.display = '';
+  	b1.style.display = 'none';
+  	b3.style.display = 'none';
+  	a2.setAttribute("class", "active");
+  	a1.setAttribute("class", "");
+  	a3.setAttribute("class", ""); 	
+  }
+  function activa_a3(){
+  	b3.style.display = '';
+  	b2.style.display = 'none';
+  	b1.style.display = 'none';
+  	a3.setAttribute("class", "active");
+  	a2.setAttribute("class", "");
+  	a1.setAttribute("class", ""); 	
+  }
+
 </script>
 
 

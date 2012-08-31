@@ -34,9 +34,25 @@ class DAL {
     $sql = "SELECT * FROM Localidad WHERE Nombre_localidad = '".$dest."'";
     return $this->query($sql);
   } 
+  public function obtener_establecimiento($dest)
+  {
+    $sql = "SELECT * FROM Establecimiento WHERE Nombre = '".$dest."'";
+    return $this->query($sql);
+  } 
 
   public function establecimientos(){  
-    $sql = "SELECT Nombre,Latitud,Longitud FROM Establecimiento";
+    $sql = "SELECT Establecimiento.Id_establecimiento ID, Establecimiento.nombre Nombre, 
+            Establecimiento.Telefono Telefono,Establecimiento.URL URL,Establecimiento.Categoria Categoria ,
+            Tipo_establecimiento.Nombre_tipo Establecimiento_tipo,Comida.especialidad Comda_especialidad, 
+            Alojamiento.Tipo Alojamiento_tipo,Alojamiento.Cantidad Alojamiento_cantidad,
+            Alojamiento.precio Alojamiento_precio,Esparcimiento.Tipo Esparcimiento_tipo, 
+            Esparcimiento.Cantidad Esparcimiento_cantidad, Establecimiento.Latitud Latitud,
+            Establecimiento.Longitud Longitud
+            FROM Establecimiento
+            LEFT JOIN Comida ON Comida.Id_establecimiento = Establecimiento.Id_establecimiento
+            LEFT JOIN Alojamiento ON Alojamiento.Id_establecimiento = Establecimiento.Id_establecimiento
+            LEFT JOIN Esparcimiento ON Esparcimiento.Id_establecimiento = Establecimiento.Id_establecimiento
+            LEFT JOIN Tipo_establecimiento ON Establecimiento.Id_tipo = Tipo_establecimiento.Id_tipo";
     return $this->query($sql);  
   } 
     
